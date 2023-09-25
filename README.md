@@ -5,8 +5,10 @@
 
 ## List of Docs
 
-- (Semantic Versioning 2.0.0)[#Semantic Versioning 2.0.0]
-### Semantic Versioning 2.0.0 
+- **[Semantic Versioning](#semantic-versioning-2.0.0)**
+
+
+### Semantic Versioning 2.0.0
 
 In Semantich Versioning ``2.0.0``, the projects are given a version number _**MAJOR.MINOR.PATCH**_, which are incremented if it falls in the below catergory:
 
