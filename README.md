@@ -3,6 +3,7 @@
 
 ## List of Docs
 
+- **[Assistance in Markdown format & Github Actions in a documentation](/DOC-MD-GITHUB-HELP.md)**
 - **[Semantic Versioning](#semantic-versioning)**
 
 
