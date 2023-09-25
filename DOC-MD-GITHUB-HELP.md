@@ -126,3 +126,13 @@ Only after the approval of the reviewer the code can be merged.
 > The reference number generated is countious for every action in the project. It will not generate a specific number for an issue and same number for a pull request.
 
 
+
+### Tagging the main branch 
+
+For tagging details check readme.md
+
+After merging the branch to the main branch, you have to tag the main branch.
+1. First, Type ``git pull`` to sync the code with local repo.
+2. Then, Type ``git tag x.x.x`` 
+3. Then, Type ``git push --tags`` to push the tag details to **Github**
+> The tags details will not be pushed into github repo unless mentioned explicitly as mentioned above
