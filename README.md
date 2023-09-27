@@ -19,6 +19,7 @@
    - **[Setting and Unseting of Environment Variable](#setting-and-unseting-of-environment-variable)**
    - **[Scope of Environment variables](#scope-of-environment-variables)**
    - **[Persisting Env Vars in Gitpod](#persisting-env-vars-in-gitpod)**
+- **[AWS CLI Installation](#aws-cli-installation)**
 
 ## Semantic Versioning
 
