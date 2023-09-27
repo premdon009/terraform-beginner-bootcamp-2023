@@ -19,6 +19,7 @@
    - **[Setting and Unseting of Environment Variable](#setting-and-unseting-of-environment-variable)**
    - **[Scope of Environment variables](#scope-of-environment-variables)**
    - **[Persisting Env Vars in Gitpod](#persisting-env-vars-in-gitpod)**
+- **[AWS CLI Installation](#aws-cli-installation)**
 
 ## Semantic Versioning
 
@@ -295,3 +296,31 @@ All future workspaces will set the env vars for all bash terminals opened in tho
 You can also set an vars in the `.gitpod.yml` but this can only contain non-senstive env vars.
 
 > It is not recommended to use set vars in the `.gitpod.yml`
+
+## AWS CLI Installation
+
+AWS ClI is installed for the project via the bash script [./bin/install_aws_cli](./bin/install_aws_cli)
+
+For more information, visit [Getting started - AWS CLI install and update instructions ](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+
+After installation, if you enter aws and press enter then we will get pop up 
+
+> Popup for CLI is shown due the setting `partial` in `.gitpod.yml`
+
+we can check if our AWS credentials is configured by entering the below command:
+
+```bash
+aws sts get-caller-identity
+```
+
+If the command is successful, you should see a json paylod return that looks like below:
+
+```json
+{
+    "UserId": "AIDAVI7XFDJGLHWHT644P",
+    "Account": "363906212345",
+    "Arn": "arn:aws:iam::363906212345:user/terraform-beginner-bootcamp"
+}
+
+```
