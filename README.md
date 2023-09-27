@@ -14,7 +14,11 @@
 - **[Refactoring into Bash Scripts](#refactoring-into-bash-scripts)**
    - **[Bash Execution considerations ](#bash-execution-considerations)**
 - **[Changing `init` to `before` in gitpod `.yml`](#changing-init-to-before-in-gitpod-yml)**
-
+- **[Environment Variable](#environment-variable-env)**
+   - **[Filter Environment Variable](#filter-environment-variable)**
+   - **[Setting and Unseting of Environment Variable](#setting-and-unseting-of-environment-variable)**
+   - **[Scope of Environment variables](#scope-of-environment-variables)**
+   - **[Persisting Env Vars in Gitpod](#persisting-env-vars-in-gitpod)**
 
 ## Semantic Versioning
 
@@ -211,3 +215,83 @@ With Gitpod, you have the following three types of tasks:
 Since we have to global dependencies like _**terraform cli, aws cli, etc.,**_ in gitpod workspace so we can use `before` instead of `init` command in `.yml` file.
 
 For more information please visit **[Gitpod Workspace Task](https://www.gitpod.io/docs/configure/workspaces/tasks)** Documents
+
+
+## Environment Variable `.env`
+
+Environment variables (env var) allow us to keep values on our local and production environments distinct and safe as we develop our app. We can understand an environment as the context in which code is being executed—all the variables, objects, functions available to the code.
+
+The general convention for naming of env variables are that it should be all capital letter with underscore (`_`) in between instead of spaces.
+
+We can see all the env var by entering `env` in the terminal.
+
+### Filter Environment Variable
+
+If you want to search/filter a specific env var in the data, you can do it by passing the output of `env` to `grep` command via `|` and entering the value to search in the data as given below.
+
+```bash  
+   env | grep terraform-beginner-bootcamp
+```
+
+### Printing of Environment variables
+You can print / `echo` out a specific env var by entering the name of env with $ before it.
+
+```bash
+echo $THEIA_WORKSPACE_ROOT
+```
+
+Alternatively you can also use grep 
+
+```bash  
+   env | grep $THEIA_WORKSPACE_ROOT
+```
+
+### Setting and Unseting of Environment Variable
+
+You can set a `env var` by type the export it in the terminal as given below.
+
+```bash
+export PROJECT_ROOT='/workspace/terraform-beginner-bootcamp-2023'
+```
+
+You can also unset the `env var` by entering unset commant in the terminal
+
+```bash
+unset PROJECT_ROOT
+```
+
+We can set an env var temporarily just by running a command.
+
+```bash
+Hello='world' ./bin/print message
+```
+
+Within a bash script we can set env without writing export as given below:
+
+```sh
+#!/usr/bin/env bash
+
+Hello='world'
+
+echo $HELLO
+```
+
+### Scope of Environment variables
+
+Environment variables are local to the process in which they were set. If two shell processes are spawned and the value of an environment variable is changed in one, that change will not be seen by the other.
+
+If you want the Env Vars to persist across all future bash terminals that are open ypu need to set env vars in your bash profile. eg. `.bash_profile`
+
+### Persisting Env Vars in Gitpod
+
+We can persist env vars into gitpod by storing them in Gitpod Secrets Storage.
+
+```sh
+gp env HELLO='world'
+```
+
+All future workspaces will set the env vars for all bash terminals opened in those workspaces
+
+You can also set an vars in the `.gitpod.yml` but this can only contain non-senstive env vars.
+
+> It is not recommended to use set vars in the `.gitpod.yml`
