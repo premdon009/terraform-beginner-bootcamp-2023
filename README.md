@@ -17,6 +17,7 @@
       - **[AWS Provider](#aws-provider)**
    - **[Using Terraform](#using-terraform)**
    - **[Terraform files](#terraform-files)**
+   - **[Issues with Terraform Cloud Login and Gitpod Workspace](#issues-with-terraform-cloud-login-and-gitpod-workspace)**
 - **[Refactoring into Bash Scripts](#refactoring-into-bash-scripts)**
    - **[Bash Execution considerations ](#bash-execution-considerations)**
 - **[Changing `init` to `before` in gitpod `.yml`](#changing-init-to-before-in-gitpod-yml)**
@@ -290,6 +291,24 @@ The above main commands are mainly used in terraform. eg. `terraform init`
 `terraform.tfstate` &  `terraform.tfstate.backup` are used for maintaining state for the project.
 
 > This files should not be committed to project.
+
+### Issues with Terraform Cloud Login and Gitpod Workspace.
+
+When attempting to run `terraform login` it will launch bash a wiswig view to generate a token. However, it does not work expected in Gitpod VS Code in the browser.
+
+You have to create token manually from profile page.
+
+- Enter `terraform login`
+- Then `yes`
+- Then `O`
+- Then `Q`
+
+   ```sh
+   Token for app.terraform.io:
+  Enter a value: 
+   ```
+- Then paste the value of token
+- Then you will be sucessfully logged in.
 
 
 ## Refactoring into Bash Scripts

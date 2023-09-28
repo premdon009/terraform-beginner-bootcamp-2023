@@ -136,3 +136,12 @@ After merging the branch to the main branch, you have to tag the main branch.
 2. Then, Type ``git tag x.x.x`` 
 3. Then, Type ``git push --tags`` to push the tag details to **Github**
 > The tags details will not be pushed into github repo unless mentioned explicitly as mentioned above
+
+
+## GIT STASH
+
+If you have inverdently, worked in the different branch instead of correct branch. we follow steps below:
+1. Add all the files to stagged  `git add .`
+2. Save the project file temporarily `git stash save`
+3. Checkout the correct brach
+4. Apply the saved temporary file to branch `git stash apply`

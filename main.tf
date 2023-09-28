@@ -1,4 +1,11 @@
 terraform {
+   cloud {
+    organization = "premdon009"
+
+    workspaces {
+      name = "terra-house-premdon009"
+    }
+  }
   required_providers {
     random = {
       source = "hashicorp/random"
@@ -11,12 +18,8 @@ terraform {
   }
 }
 
-# provider "aws" {
-#   # Configuration options
-#   region     = AWS_DEFAULT_REGION
-#   access_key = AWS_ACCESS_KEY_ID
-#   secret_key = AWS_SECRET_ACCESS_KEY
-# }
+provider "aws" {
+}
 
 provider "random" {
   # Configuration options
@@ -32,14 +35,14 @@ upper = false
 }
 
 
-# resource "aws_s3_bucket" "example" {
-#   bucket = random_string.bucket_name.result
+resource "aws_s3_bucket" "example" {
+  bucket = random_string.bucket_name.result
 
-#   # tags = {
-#   #   Name        = "My bucket"
-#   #   Environment = "Dev"
-#   # }
-# }
+  # tags = {
+  #   Name        = "My bucket"
+  #   Environment = "Dev"
+  # }
+}
 
 
 
