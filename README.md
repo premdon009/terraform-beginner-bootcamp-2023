@@ -11,6 +11,10 @@
    - **[Linux File Permissions](#linux-file-permissions)**
 - **[Terraform CLI](#terraform-cli)**
    - **[Consideration with the Terraform CLI changes](#consideration-with-the-terraform-cli-changes)**
+- **[Terraform Basics](#terraform-basics)**
+   - **[Terraform Registry](#terraform-registry)**
+   - **[Using Terraform](#using-terraform)**
+   - **[Terraform files](#terraform-files)**
 - **[Refactoring into Bash Scripts](#refactoring-into-bash-scripts)**
    - **[Bash Execution considerations ](#bash-execution-considerations)**
 - **[Changing `init` to `before` in gitpod `.yml`](#changing-init-to-before-in-gitpod-yml)**
@@ -162,6 +166,91 @@ sudo apt-get install terraform
 ```
 
 > Note: If requried, we can also use apt instead of apt-get
+
+
+## Terraform Basics
+### Terraform Registry
+
+Terraform Registry has all type of **Providers** and **Modules**
+
+**Providers** - Used for directly intergrate API of all Services in Cloud Service Providers (like, AWS, AZURE, etc)
+**Modules** - It is collection of templates commonly used in Terraform 
+
+For more information, visit [Terraform Registry](https://registry.terraform.io/)
+
+
+For this bootcamp, we will use [Random Provider](https://registry.terraform.io/providers/hashicorp/random/latest)
+
+Copy the sample configuration, from [Random Provider Documentation](https://registry.terraform.io/providers/hashicorp/random/latest/docs) and by clicking use provider button, it will give the below code.
+
+```sh
+terraform {
+  required_providers {
+    random = {
+      source = "hashicorp/random"
+      version = "3.5.1"
+    }
+  }
+}
+
+provider "random" {
+  # Configuration options
+}
+```
+
+Then paste the resource, from the examples in the documention.
+
+```sh
+resource "random_string" "bucket_name" {
+  length           = 16
+  special          = false
+ #   override_special = "/@£$"
+}
+```
+
+Now, you can save [output](https://developer.hashicorp.com/terraform/language/values/outputs) to a varible in the same tf file.  
+
+```sh
+output "random_bucket_name_id" {
+  value = random_string.bucket_name.id
+}
+
+output "random_bucket_name_result" {
+  value = random_string.bucket_name.result
+}
+
+```
+
+
+### Using Terraform
+
+Terraform should be used by following commands
+
+ - `init`          
+   - Prepare your working directory for other commands. 
+   - Initialize the backend in the project. Also downloads the provider from terraform registry and initialize it in the project.  
+ - `validate`      
+   - Check whether the configuration is valid
+ - `plan`          
+   - Show changes required by the current configuration
+   - It shows changes made to resources from last configuration which you can check for any unplanned change that going to happen to resource. If it is new configuration, it will shows the resources added to the project.
+ - `apply`         
+   - Create or update infrastructure
+   - This will apply the change
+   - The change can be auto approved by flag `--auto-approve`. Example `terraform apply --auto-approve`
+ - `destroy`       
+   - Destroy previously-created infrastructure
+
+The above main commands are mainly used in terraform. eg. `terraform init`
+
+
+### Terraform files .
+
+`.terraform.lock.hcl` contains the locked versioning for the provided and modules used in this project. **This file should be commited**.
+
+`terraform.tfstate` &  `terraform.tfstate.backup` are used for maintaining state for the project.
+
+> This files should not be committed to project.
 
 
 ## Refactoring into Bash Scripts
