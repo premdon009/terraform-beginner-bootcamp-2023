@@ -349,7 +349,13 @@ If we are using a script in .gitpod.yml, we need to point the script to a progra
 $ source ./bin/install_terraform_cli
  ```
 
+### Bash Profiles
 
+The Bash Profile file can be openned in VSCode
+
+```sh
+open ~/.bash_profile
+```
 
 ## Changing `init` to `before` in gitpod `.yml`
 
