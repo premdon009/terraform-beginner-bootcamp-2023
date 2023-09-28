@@ -311,6 +311,7 @@ You have to create token manually from profile page.
 - Then you will be sucessfully logged in.
 
 
+We have automated this workaround with the following bash script [generate_trfc_credentials](./bin/generate_tfrc_credentials)
 ## Refactoring into Bash Scripts
 
 While fixing the Terraform install issue due to gpg depreciation. we notice that creating bash scripts were more in the documentation as compared to before.
