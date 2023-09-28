@@ -13,6 +13,8 @@
    - **[Consideration with the Terraform CLI changes](#consideration-with-the-terraform-cli-changes)**
 - **[Terraform Basics](#terraform-basics)**
    - **[Terraform Registry](#terraform-registry)**
+      - **[Random Provider](#random-provider)**
+      - **[AWS Provider](#aws-provider)**
    - **[Using Terraform](#using-terraform)**
    - **[Terraform files](#terraform-files)**
 - **[Refactoring into Bash Scripts](#refactoring-into-bash-scripts)**
@@ -178,10 +180,13 @@ Terraform Registry has all type of **Providers** and **Modules**
 
 For more information, visit [Terraform Registry](https://registry.terraform.io/)
 
+### List of Terraform Providers
 
-For this bootcamp, we will use [Random Provider](https://registry.terraform.io/providers/hashicorp/random/latest)
+For this bootcamp, we will use the following providers
 
-Copy the sample configuration, from [Random Provider Documentation](https://registry.terraform.io/providers/hashicorp/random/latest/docs) and by clicking use provider button, it will give the below code.
+#### **[Random Provider](https://registry.terraform.io/providers/hashicorp/random/latest)**
+
+To use configuration, from [Random Provider Documentation](https://registry.terraform.io/providers/hashicorp/random/latest/docs) and by clicking use provider button, it will give the below code.
 
 ```sh
 terraform {
@@ -220,6 +225,40 @@ output "random_bucket_name_result" {
 }
 
 ```
+
+#### **[AWS Provider](https://registry.terraform.io/providers/hashicorp/aws/latest)**
+
+
+To use configuration, from [AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) and by clicking use provider button, it will give the below code.
+
+```json
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.18.1"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+```
+
+Add AWS Configuration:
+
+For example:
+
+```json
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "my-access-key"
+  secret_key = "my-secret-key"
+}
+
+```
+
 
 
 ### Using Terraform
