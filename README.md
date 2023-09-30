@@ -1,6 +1,5 @@
 # Terraform Beginner Bootcamp 2023
-
-![pipeline diagram](./assets/plan.jpg)
+![plan](https://github.com/premdon009/terraform-beginner-bootcamp-2023/assets/49059999/f282e9ea-6623-4252-bd9c-d35dd6dbbf80)
 
 ## Week Journal (TOC)
 
