@@ -7,27 +7,15 @@ terraform {
   #   }
   # }
   required_providers {
-    random = {
-      source = "hashicorp/random"
-      version = "3.5.1"
-    }
-    aws = {
+   aws = {
       source = "hashicorp/aws"
-      version = "5.18.1"
+      version = "5.19.0"
     }
   }
 }
 
-resource "random_string" "bucket_name" {
-length           = 60
-special          = true
-override_special = "-"
-upper = false
-
-}
-
-resource "aws_s3_bucket" "example" {
-  bucket = random_string.bucket_name.result
+resource "aws_s3_bucket" "website_bucket" {
+  bucket = var.bucket_name
 
   tags = {
     UserUuid  = var.user_uuid
