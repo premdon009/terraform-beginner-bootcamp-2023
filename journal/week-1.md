@@ -13,6 +13,10 @@
   - **[teraform.tfvars](#teraformtfvars)**
   - **[auto.tfvars](#autotfvars)**
   - **[Order of Terrform variables](#order-of-terrform-variables)**
+- **[Dealing with Configuration Drift](#dealing-with-configuration-drift)**
+  - **[What happens if we lose state file in terraform.](#what-happens-if-we-lose-state-file-in-terraform)**
+  - **[Fix Missing Resources with Terraform Import](#fix-missing-resources-with-terraform-import)**
+  - **[Fix Manual Configuration](#fix-manual-configuration)**
 ## Root Module Structure
 
 The terraform file structure followed as per Terraform Docuements are given below:
@@ -64,3 +68,23 @@ This is the default file to load in terraform for variables.
 
 - TODO: document which terraform variables takes precedence
 
+
+## Dealing with Configuration Drift
+
+### What happens if we lose state file in terraform.
+
+If you lose the state file, then you have destroy all your projects cloud infrastructure manually.
+
+You can use terraform import for importing the current state. But it will not work for all cloud providers.
+
+### Fix Missing Resources with Terraform Import
+
+`terraform import aws_s3_bucket.bucket bucket-name`
+
+For more information, please visit [Terraform Import Documentation](https://developer.hashicorp.com/terraform/cli/import)
+
+### Fix Manual Configuration
+
+If someone goes and delete or modifies cloud resource manually through ClickOps.
+
+If we run Terraform plan is with attempt to put our infrstraucture back into the expected state fixing Configuration Drift
