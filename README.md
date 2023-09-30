@@ -23,6 +23,8 @@
    - **[Using Terraform](./journal/week-0.md#using-terraform)**
    - **[Terraform files](./journal/week-0.md#terraform-files)**
    - **[Issues with Terraform Cloud Login and Gitpod Workspace](./journal/week-0.md#issues-with-terraform-cloud-login-and-gitpod-workspace)**
+   - **[Terraform Root File Structure](./journal/week-1.md#root-module-structure)**
+   - **[Terrform Input Variables](./journal/week-1.md#terrform-input-variables)**
 - **[Refactoring into Bash Scripts](./journal/week-0.md#refactoring-into-bash-scripts)**
    - **[Bash Execution considerations ](./journal/week-0.md#bash-execution-considerations)**
 - **[Changing `init` to `before` in gitpod `.yml`](./journal/week-0.md#changing-init-to-before-in-gitpod-yml)**
@@ -36,4 +38,4 @@
 
 ## Extras
 
-- **[Markdown to TOC](https://ecotrust-canada.github.io/markdown-toc/)**
+- **[Markdown to TOC Converter](https://ecotrust-canada.github.io/markdown-toc/)**

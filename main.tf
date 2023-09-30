@@ -1,11 +1,11 @@
 terraform {
-   cloud {
-    organization = "premdon009"
+  #  cloud {
+  #   organization = "premdon009"
 
-    workspaces {
-      name = "terra-house-premdon009"
-    }
-  }
+  #   workspaces {
+  #     name = "terra-house-premdon009"
+  #   }
+  # }
   required_providers {
     random = {
       source = "hashicorp/random"
@@ -18,14 +18,6 @@ terraform {
   }
 }
 
-provider "aws" {
-}
-
-provider "random" {
-  # Configuration options
-}
-
-
 resource "random_string" "bucket_name" {
 length           = 60
 special          = true
@@ -34,19 +26,12 @@ upper = false
 
 }
 
-
 resource "aws_s3_bucket" "example" {
   bucket = random_string.bucket_name.result
 
-  # tags = {
-  #   Name        = "My bucket"
-  #   Environment = "Dev"
-  # }
-}
-
-
-
-output "random_bucket_name" {
-  value = random_string.bucket_name.id
+  tags = {
+    UserUuid  = var.user_uuid
+    project = "terraform-beginner-bootcamp-2023"
+  }
 }
 
