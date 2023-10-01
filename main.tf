@@ -6,20 +6,10 @@ terraform {
   #     name = "terra-house-premdon009"
   #   }
   # }
-  required_providers {
-   aws = {
-      source = "hashicorp/aws"
-      version = "5.19.0"
-    }
-  }
 }
 
-resource "aws_s3_bucket" "website_bucket" {
-  bucket = var.bucket_name
-
-  tags = {
-    UserUuid  = var.user_uuid
-    project = "terraform-beginner-bootcamp-2023"
-  }
+module "terrahouse_aws" {
+  source = "./modules/terrahouse_aws"
+  user_uuid = var.user_uuid
+  bucket_name = var.bucket_name
 }
-
