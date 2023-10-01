@@ -17,6 +17,12 @@
   - **[What happens if we lose state file in terraform.](#what-happens-if-we-lose-state-file-in-terraform)**
   - **[Fix Missing Resources with Terraform Import](#fix-missing-resources-with-terraform-import)**
   - **[Fix Manual Configuration](#fix-manual-configuration)**
+- **[Terraform Module](#terraform-module)**
+  - **[Terrforma Module Structure](#terrforma-module-structure)**
+  - **[Passing Input Variables](#passing-input-variables)**
+  - **[Module Sources](#module-sources)**
+  - **[Important info regarding Variables, Output & Providers in modules.](#important-info-regarding-variables-output--providers-in-modules)**
+
 ## Root Module Structure
 
 The terraform file structure followed as per Terraform Docuements are given below:
@@ -88,3 +94,106 @@ For more information, please visit [Terraform Import Documentation](https://deve
 If someone goes and delete or modifies cloud resource manually through ClickOps.
 
 If we run Terraform plan is with attempt to put our infrstraucture back into the expected state fixing Configuration Drift
+
+## Terraform Module 
+
+### Terrforma Module Structure
+
+It is recommeded to place modules in `modules` folder when developing modules locally but you can name it whatever you like.
+
+
+### Passing Input Variables
+
+We can pass input variables to our module. The module has to declare the terraform variables in its own variables.tf
+
+```tf
+module "terrahouse_aws" {
+  source = "./modules/terrahouse_aws"
+  user_uuid = var.user_uuid
+  bucket_name = var.bucket_name
+}
+```
+
+### Module Sources 
+
+Module Sources documents what kinds of paths, addresses, and URIs can be used in the source argument of a module block.
+
+The module installer supports installation from a number of different source types.
+
+- Local paths
+- Terraform Registry
+- GitHub
+- Bitbucket
+- Generic Git, Mercurial repositories
+- HTTP URLs
+- S3 buckets
+- GCS buckets
+- Modules in Package Sub-directories
+
+For more information, please visit [Module Sources](https://developer.hashicorp.com/terraform/language/modules/sources)
+
+### Important info regarding Variables, Output & Providers in modules.
+
+1. It is to be noted that the modules should be imported in the `main.tf` at `PROJECT_ROOT` folder with variables to linked in modules.
+
+    ```tf
+    # example code
+
+    # in main.tf in PROJECT_ROOT
+
+    module "terrahouse_aws" {
+    source = "./modules/terrahouse_aws"
+    user_uuid = var.user_uuid
+    bucket_name = var.bucket_name
+    }
+
+    # in main.tf in module terrahouse_aws
+
+    resource "aws_s3_bucket" "website_bucket" {
+    bucket = var.bucket_name
+
+    tags = {
+      UserUuid  = var.user_uuid
+      project = "terraform-beginner-bootcamp-2023"
+      }
+    }
+    ```
+
+1. Variable used in the modules should be mentioned in the variables file (`variable.tf`) at `PROJECT_ROOT` and can contain a type or desc which can viewed for reference.
+    ```tf
+    # in variable.tf in PROJECT_ROOT
+    variable "user_uuid" {
+      type = string
+    }
+
+    variable "bucket_name" {
+      type = string
+    }
+
+    # in variable.tf in module terrahouse_aws
+    variable "user_uuid" {
+      description = "The UUID of the user"
+      type        = string
+    }
+
+    variable "bucket_name" {
+      description = "The name of the S3 bucket"
+      type        = string
+    }
+    ```
+1. If the output for a module should be shown in the terminal or in the `PROJECT_ROOT` from the modules, the same should be imported in the `output.tf` at `PROJECT_ROOT`.
+    ```tf
+    # in output.tf in PROJECT_ROOT
+    output "bucket_name" {
+      description = "Bucket Name for our static website"
+      value = module.terrahouse_aws.bucket_name
+    }
+
+    # in output.tf in module terrahouse_aws
+    output "bucket_name" {
+      value = aws_s3_bucket.website_bucket.bucket # referrenced from provider mentioned in main.tf in the module terrahouse_aws
+    }
+    ```
+1. Providers used in the modules can imported via `main.tf` in the modules. The same don't have to mentioned in the `main.tf` at `PROJECT ROOT`.
+
+> Dont copy paste the codes as it is. As the codes belong to two different file.
