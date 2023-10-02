@@ -197,3 +197,38 @@ For more information, please visit [Module Sources](https://developer.hashicorp.
 1. Providers used in the modules can imported via `main.tf` in the modules. The same don't have to mentioned in the `main.tf` at `PROJECT ROOT`.
 
 > Dont copy paste the codes as it is. As the codes belong to two different file.
+
+
+## Consideration when using ChatGPT to write terraform
+
+LLMs such as ChatGPT may not be trained on the latest documentation or information about terraform.
+
+It may likely produce older example that could be decrepated. 
+
+## Working with files in Terraform
+
+### Path Variable
+
+In terraform, there is a special variable called `path` that allows us to reference local paths:
+- `path.module` = get the path for the current module.
+- `path.root`   = get the path for the root module.
+
+[Special Path Variable](https://developer.hashicorp.com/terraform/language/expressions/references#filesystem-and-workspace-info)
+
+[S3 object reference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object)
+
+[filemd5 reference](https://developer.hashicorp.com/terraform/language/functions/filemd5)
+```hcl
+resource "aws_s3_object" "index_html" {
+  bucket = aws_s3_bucket.website_bucket.bucket
+  key    = "index.html"
+  # source = "/workspace/terraform-beginner-bootcamp-2023/public/index.html"
+  # source = "${path.root}/public/index.html"
+  source = var.index_html_filepath
+
+  # The filemd5() function is available in Terraform 0.11.12 and later
+  # For Terraform 0.11.11 and earlier, use the md5() function and the file() function:
+  # etag = "${md5(file("path/to/file"))}"
+  etag = filemd5(var.index_html_filepath)
+}
+```
