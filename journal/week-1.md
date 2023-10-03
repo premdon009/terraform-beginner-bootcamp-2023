@@ -22,6 +22,15 @@
   - **[Passing Input Variables](#passing-input-variables)**
   - **[Module Sources](#module-sources)**
   - **[Important info regarding Variables, Output & Providers in modules.](#important-info-regarding-variables-output--providers-in-modules)**
+  - **[Consideration when using ChatGPT to write terraform](#consideration-when-using-chatgpt-to-write-terraform)**
+  - **[Working with files in Terraform](#working-with-files-in-terraform)**
+    - **[Path Variable](#path-variable)**
+  - **[Terraform Data Sources](#terraform-data-sources)**
+  - **[Terraform Locals](#terraform-locals)**
+  - **[Working with JSON](#working-with-json)**
+- **[AWS CloudFront Intergration.](#aws-cloudfront-intergration)**
+  - **[Origin Access Control (OAC)](#origin-access-control-oac)**
+
 
 ## Root Module Structure
 
@@ -232,3 +241,50 @@ resource "aws_s3_object" "index_html" {
   etag = filemd5(var.index_html_filepath)
 }
 ```
+
+## AWS CloudFront Intergration.
+
+Amazon CloudFront is a content delivery network operated by Amazon Web Services. The content delivery network was created to provide a globally-distributed network of proxy servers to cache content, such as web videos or other bulky media, more locally to consumers, to improve access speed for downloading the content.
+
+For this project, we are going to use the website in S3 bucket via Amazon Cloudfront. The same can be added to Terraform through AWS provider.
+
+For more information, please visit [Terraform: AWS Cloudfront Distribution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution)
+
+### Origin Access Control (OAC) 
+
+CloudFront provides two ways to send authenticated requests to an Amazon S3 origin: origin access control (OAC) and origin access identity (OAI). For this project, we are going to use [Origin Access Control (OAC)](https://aws.amazon.com/blogs/networking-and-content-delivery/amazon-cloudfront-introduces-origin-access-control-oac/)
+
+For more information, please visit [restricting access to an Amazon S3 origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) documentation.
+
+## Terraform Data Sources
+
+Data sources allow Terraform to use information defined outside of Terraform, defined by another separate Terraform configuration, or modified by functions.
+
+A data source is accessed via a special kind of resource known as a data resource, declared using a data block:
+
+For more information, please visit [Data Sources](https://developer.hashicorp.com/terraform/language/data-sources) documentation.
+
+
+## Terraform Locals
+
+Locals allows us to define local variables.
+It can be very useful when we need transform data into another format and have referenced a varaible.
+
+```tf
+locals {
+  s3_origin_id = "MyS3Origin"
+}
+```
+For more information, please visit [Local Values](https://developer.hashicorp.com/terraform/language/values/locals) documentation
+
+
+## Working with JSON
+
+We use the jsonencode to create the json policy inline in the hcl.
+
+```tf
+> jsonencode({"hello"="world"})
+{"hello":"world"}
+```
+
+For more information, please visit [jsonencode](https://developer.hashicorp.com/terraform/language/functions/jsonencode) documentation
