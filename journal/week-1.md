@@ -28,6 +28,11 @@
   - **[Terraform Data Sources](#terraform-data-sources)**
   - **[Terraform Locals](#terraform-locals)**
   - **[Working with JSON](#working-with-json)**
+  - **[Terraform Data Block](#terraform-data-block)**
+  - **[Working with Terraform Lifecycles](#working-with-terraform-lifecycles)**
+  - **[Provisioners](#provisioners)**
+  - **[`local-exec`](#local-exec)**
+  - **[`remote-exec`](#remote-exec)**
 - **[AWS CloudFront Intergration.](#aws-cloudfront-intergration)**
   - **[Origin Access Control (OAC)](#origin-access-control-oac)**
 
@@ -310,3 +315,41 @@ Before Null Provider were used as provided for maintaining a state for change in
 The terraform_data implements the standard resource lifecycle, but does not directly take any other actions. You can use the terraform_data resource without requiring or configuring a provider. It is always available through a built-in provider with the source address terraform.io/builtin/terraform.
 
 The terraform_data resource is useful for storing values which need to follow a manage resource lifecycle, and for triggering provisioners when there is no other logical managed resource in which to place them.
+
+## Provisioners
+
+Provisioners allow you to execute commands on compute instances e.g. AWS CLI Command.
+
+They are not recommended by Hashicorp because Configuration management tools such as Ansible are better fit.
+
+> Important: Use provisioners as a last resort. There are better alternatives for most situations. Refer to Declaring [Provisioners](https://developer.hashicorp.com/terraform/language/resources/provisioners/syntax) for more details.
+### Local-exec
+
+The `local-exec` provisioner invokes a local executable after a resource is created. This invokes a process on the machine running Terraform, not on the resource.
+
+Note that even though the resource will be fully created when the provisioner is run, there is no guarantee that it will be in an operable state - for example system services such as sshd may not be started yet on compute resources.
+
+### Remote-exec
+
+The `remote-exec` provisioner invokes a script on a remote resource after it is created. This can be used to run a configuration management tool, bootstrap into a cluster, etc. The `remote-exec` provisioner requires a connection and supports both `ssh` and `winrm`.
+
+## AWS Cloud Front Invalidation.
+
+We are using provisioner for cloud front file invalidation. Even though the files are updated in the cloudfront the cached version is not changed. To remove the cached files we have to invalidate the files in the distribution.
+
+```hcl
+  resource "terraform_data" "invalidate_cache" {
+    triggers_replace = terraform_data.content_version.output
+
+    # https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec
+    provisioner "local-exec" {
+      # https://developer.hashicorp.com/terraform/language/expressions/strings#heredoc-strings
+      # here doc i.e., "<<COMMAND COMMAND" is used for multiline command using backlash in every line \
+      command = <<COMMAND
+          aws cloudfront create-invalidation \
+          --distribution-id ${aws_cloudfront_distribution.s3_distribution.id} \
+          --paths '/*'
+        COMMAND
+    }
+  }
+```
