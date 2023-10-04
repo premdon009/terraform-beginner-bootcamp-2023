@@ -13,3 +13,10 @@ output "website_endpoint" {
   description = "value of bucket endpoint from bucket website resource"
   value = aws_s3_bucket_website_configuration.website_configuration.website_endpoint
 }
+
+
+output "cloudfront_URL" {
+  description = "URL of Cloud Front Distribution of AWS"
+  value = aws_cloudfront_distribution.s3_distribution.domain_name
+  
+}
