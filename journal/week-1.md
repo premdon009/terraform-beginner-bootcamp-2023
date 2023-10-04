@@ -288,3 +288,25 @@ We use the jsonencode to create the json policy inline in the hcl.
 ```
 
 For more information, please visit [jsonencode](https://developer.hashicorp.com/terraform/language/functions/jsonencode) documentation
+
+## Working with Terraform Lifecycles
+
+The Resource Behavior page describes the general lifecycle for resources. Some details of that behavior can be customized using the special nested lifecycle block within a resource block body.
+
+lifecycle is a nested block that can appear within a resource block. The lifecycle block and its contents are meta-arguments, available for all resource blocks regardless of type. 
+
+The arguments available within a lifecycle block are `create_before_destroy`, `prevent_destroy`, `ignore_changes`, and `replace_triggered_by`.
+
+For more information please visit [Terraform Lifecycle](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle)
+
+we are using a lifecycle with tag `replace_triggered_by` in this project. 
+1. We will want to ignore the etag when triggerring the terraform update/plan for every single correction made to file.
+1. We want the files to shown in the terraform plan, only when the content version has been changed.
+
+## Terraform Data Block.
+
+Before Null Provider were used as provided for maintaining a state for change in state for file as content management. Now, terraform has already included the provider as [`terraform_data`](https://developer.hashicorp.com/terraform/language/resources/terraform-data)
+
+The terraform_data implements the standard resource lifecycle, but does not directly take any other actions. You can use the terraform_data resource without requiring or configuring a provider. It is always available through a built-in provider with the source address terraform.io/builtin/terraform.
+
+The terraform_data resource is useful for storing values which need to follow a manage resource lifecycle, and for triggering provisioners when there is no other logical managed resource in which to place them.
