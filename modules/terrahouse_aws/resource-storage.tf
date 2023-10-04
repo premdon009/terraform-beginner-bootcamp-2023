@@ -36,6 +36,10 @@ resource "aws_s3_object" "index_html" {
   # etag = "${md5(file("path/to/file"))}"
   ## Reference Link: https://developer.hashicorp.com/terraform/language/functions/filemd5
   etag = filemd5(var.index_html_filepath)
+  lifecycle {
+    ignore_changes = [ etag ]
+    replace_triggered_by = [terraform_data.content_version.output]
+  }
 }
 # reference Link: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object
 resource "aws_s3_object" "error_html" {
@@ -51,6 +55,10 @@ resource "aws_s3_object" "error_html" {
   # etag = "${md5(file("path/to/file"))}"
   ## Reference Link: https://developer.hashicorp.com/terraform/language/functions/filemd5
   etag = filemd5(var.error_html_filepath)
+  lifecycle {
+    ignore_changes = [ etag ]
+    replace_triggered_by = [terraform_data.content_version.output]
+  }
 }
 
 
@@ -77,4 +85,9 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
       }
     }
   )
+}
+
+# https://developer.hashicorp.com/terraform/language/resources/terraform-data
+resource "terraform_data" "content_version" {
+  input = var.content_version
 }
