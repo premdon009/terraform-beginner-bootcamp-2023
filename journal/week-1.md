@@ -353,3 +353,17 @@ We are using provisioner for cloud front file invalidation. Even though the file
     }
   }
 ```
+
+## Meta Arguments in Terraform
+
+### For Each Expressions
+
+The `for_each` is a meta-argument defined by the Terraform language. It can be used with modules and with every resource type.
+
+The `for_each` meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set.
+
+It allows to enumerate over complex data types. It is very useful, if you want to creating multiples of a clud resource and you want to reduce the amount of repetitive terraform code
+
+for more information, please visit [`for_each`](https://developer.hashicorp.com/terraform/language/meta-arguments/for_each) documentation.
+
+
